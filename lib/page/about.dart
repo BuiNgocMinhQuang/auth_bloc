@@ -33,6 +33,8 @@ class UserScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
+        BlocProvider.of<UserBloc>(context).add(GetUserEvent());
+        print("UserSTATE $state");
         if (state is UserLoading) {
           return Center(child: CircularProgressIndicator());
         } else if (state is UserLoaded) {

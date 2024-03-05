@@ -15,7 +15,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   Future<void> _onGetUser(GetUserEvent event, Emitter<UserState> emit) async {
     emit(UserLoading());
+
     final token = await SharedPreferencesHelper.getToken();
+
     if (token != null) {
       final headers = {
         'Authorization': 'Bearer $token',
@@ -27,17 +29,21 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         headers: headers,
       );
 
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        if (data['status'] == 200) {
-          final user = User.fromJson(data['data']);
-          emit(UserLoaded(user));
-        } else {
-          emit(UserUnauthenticated());
-        }
-      } else {
-        emit(UserUnauthenticated());
-      }
+      // if (response.statusCode == 200) {
+
+      //   final data = jsonDecode(response.body);
+
+      //   if (data['status'] == 200) {
+      //     print(" DATA $data");
+      //     final user = User.fromJson(data);
+      //     print("USER DATA $user");
+      //     emit(UserLoaded(user));
+      //   } else {
+      //     emit(UserUnauthenticated());
+      //   }
+      // } else {
+      //   emit(UserUnauthenticated());
+      // }
     } else {
       emit(UserUnauthenticated());
     }

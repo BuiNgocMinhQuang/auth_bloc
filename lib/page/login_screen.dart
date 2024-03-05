@@ -22,7 +22,6 @@ class _LoginFormState extends State<LoginForm> {
     return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state is LoginSuccess) {
-          BlocProvider.of<UserBloc>(context).add(GetUserEvent());
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Profile()),

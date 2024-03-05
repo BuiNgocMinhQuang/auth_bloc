@@ -35,7 +35,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       if (response.statusCode == 200) {
         if (data['status'] == 200) {
           final token = data['token'];
+          print("DATA Token ${token}");
           final user = User.fromJson(data);
+          print("DATA USER ${user}");
           await SharedPreferencesHelper.saveToken(token);
           emit(LoginSuccess(user));
         } else {
