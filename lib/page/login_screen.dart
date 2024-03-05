@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logic_bloc/bloc/login_bloc.dart';
+import 'package:logic_bloc/bloc/user_bloc.dart';
+import 'package:logic_bloc/page/about.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -19,7 +21,13 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
-        if (state is LoginFailure) {
+        if (state is LoginSuccess) {
+          BlocProvider.of<UserBloc>(context).add(GetUserEvent());
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Profile()),
+          );
+        } else if (state is LoginFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message)),
           );
@@ -52,15 +60,22 @@ class _LoginFormState extends State<LoginForm> {
               // Button đăng nhập
               ElevatedButton(
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    BlocProvider.of<LoginBloc>(context).add(
-                      LoginButtonPressed(
-                        shopId: _shopIdController.text,
-                        email: _emailController.text,
-                        password: _passwordController.text,
-                      ),
-                    );
-                  }
+                  BlocProvider.of<LoginBloc>(context).add(
+                    LoginButtonPressed(
+                      shopId: "123456789",
+                      email: "buingocminhquang1@gmail.com",
+                      password: "123456789",
+                    ),
+                  );
+                  // if (_formKey.currentState!.validate()) {
+                  //   BlocProvider.of<LoginBloc>(context).add(
+                  //     LoginButtonPressed(
+                  //       shopId: "123456789",
+                  //       email: "buingocminhquang1@gmail.com",
+                  //       password: "123456789",
+                  //     ),
+                  //   );
+                  // }
                 },
                 child: const Text("Đăng nhập"),
               ),
